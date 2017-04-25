@@ -1,0 +1,573 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/paypal/react-engine#readme"
+
+    >react-engine (v4.3.0)</a>
+</h1>
+<h4>a composite render engine for express apps to render both plain react views and react-router views</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.react-engine">module react-engine</a><ol>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">react-engine.</span>client</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">react-engine.</span>server</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">react-engine.</span>util</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.react-engine.client">module react-engine.client</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-engine.client.boot">
+            function <span class="apidocSignatureSpan">react-engine.client.</span>boot
+            <span class="apidocSignatureSpan">(options, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-engine.client.data">
+            function <span class="apidocSignatureSpan">react-engine.client.</span>data
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.react-engine.server">module react-engine.server</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-engine.server.create">
+            function <span class="apidocSignatureSpan">react-engine.server.</span>create
+            <span class="apidocSignatureSpan">(createOptions)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.react-engine.util">module react-engine.util</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-engine.util.clearRequireCache">
+            function <span class="apidocSignatureSpan">react-engine.util.</span>clearRequireCache
+            <span class="apidocSignatureSpan">(file)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-engine.util.clearRequireCacheInDir">
+            function <span class="apidocSignatureSpan">react-engine.util.</span>clearRequireCacheInDir
+            <span class="apidocSignatureSpan">(dir, extension)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.react-engine.util.safeRequire">
+            function <span class="apidocSignatureSpan">react-engine.util.</span>safeRequire
+            <span class="apidocSignatureSpan">(name)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.react-engine" id="apidoc.module.react-engine">module react-engine</a></h1>
+
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.react-engine.client" id="apidoc.module.react-engine.client">module react-engine.client</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.react-engine.client.boot" id="apidoc.element.react-engine.client.boot">
+        function <span class="apidocSignatureSpan">react-engine.client.</span>boot
+        <span class="apidocSignatureSpan">(options, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function boot(options, callback) {
+
+  var React = require(&#x27;react&#x27;);
+  var Router;
+  var RouterComponent;
+  var match;
+  var browserHistory;
+
+  try {
+    Router = require(&#x27;react-router&#x27;);
+    RouterComponent = Router.Router;
+    match = Router.match;
+
+    // compatibility for both `react-router` v2 and v1
+    browserHistory = Router.browserHistory || require(&#x27;history&#x27;).createHistory();
+  } catch (err) {
+    if (!Router &#x26;&#x26; options.routes) {
+      throw new Error(&#x27;asking to use react router for rendering, but no routes are provided&#x27;);
+    }
+  }
+
+  var router;
+  var history;
+  var location;
+  var viewResolver = options.viewResolver;
+
+  // pick up the state that was injected by server during rendering
+  var props = data();
+  var useRouter = (props.__meta.view === null);
+  var mountNode = options.mountNode || _document;
+
+  if (useRouter) {
+
+    history = options.history || browserHistory;
+    location = _window.location.pathname +
+      _window.location.search + _window.location.hash;
+
+    // Wrap the &#x27;render&#x27; function within a call to &#x27;match&#x27;. This is a workaround to support
+    // users using code splitting functionality
+    match({ routes: options.routes, location: location }, function() {
+
+      // for any component created by react-router, merge model data with the routerProps
+      // NOTE: This may be imposing too large of an opinion?
+      var routerComponent = React.createElement(RouterComponent, {
+        createElement: function(Component, routerProps) {
+          return React.createElement(Component, assign({}, props, routerProps));
+        },
+
+        routes: options.routes,
+        history: history
+      });
+
+      ReactDOM.render(routerComponent, mountNode);
+    });
+
+  } else {
+    // get the file from viewResolver supplying it with a view name
+    var view = viewResolver(props.__meta.view);
+
+    // create a react view factory
+    var viewFactory = React.createFactory(view);
+
+    // render the factory on the client
+    // doing this, sets up the event
+    // listeners and stuff aka mounting views.
+    ReactDOM.render(viewFactory(props), mountNode);
+  }
+
+  // call the callback with the data that was used for rendering
+  return callback &#x26;&#x26; callback(props, history);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, function onLoad() {
+
+  // `onBoot` - Function (optional)
+  // returns data that was used
+  // during rendering as the first argument
+  // the second argument is the `history` object that was created behind the scenes
+  // (only available while using react-router)
+  client.<span class="apidocCodeKeywordSpan">boot</span>(/* client options object */, function onBoot(data, history) {
+
+  });
+};
+
+// if the data is needed before booting on
+// client, call `data` function anytime to get it.
+// example:
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.react-engine.client.data" id="apidoc.element.react-engine.client.data">
+        function <span class="apidocSignatureSpan">react-engine.client.</span>data
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function data() {
+  // this file needs to be a external js file
+  var element = document.getElementById(Config.client.markupId);
+  // grab the contents from the script element
+  var jsonString = element.textContent || element.innerText;
+  // parse the text contents to JSON
+  return JSON.parse(jsonString);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+  });
+};
+
+// if the data is needed before booting on
+// client, call `data` function anytime to get it.
+// example:
+var data = client.<span class="apidocCodeKeywordSpan">data</span>();
+```
+
+###### Client options spec
+Pass in a JavaScript object as options to the react-engine&#x27;s client boot function.
+It can contain the following properties,
+
+- `routes` : **required** - _Object_ - the route definition file.
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.react-engine.server" id="apidoc.module.react-engine.server">module react-engine.server</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.react-engine.server.create" id="apidoc.element.react-engine.server.create">
+        function <span class="apidocSignatureSpan">react-engine.server.</span>create
+        <span class="apidocSignatureSpan">(createOptions)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function create(createOptions) {
+  createOptions = createOptions || {};
+
+  // safely require the peer-dependencies
+  var React = util.safeRequire(&#x27;react&#x27;);
+  var Router;
+  var match;
+  var RouterContext;
+
+  try {
+    Router = require(&#x27;react-router&#x27;);
+    match = Router.match;
+
+    // compatibility for both `react-router` v2 and v1
+    RouterContext = Router.RouterContext || Router.RoutingContext;
+  } catch (err) {
+    if (!Router &#x26;&#x26; createOptions.routes) {
+      throw err;
+    }
+  }
+
+  createOptions.scriptType = isString(createOptions.scriptType) ? createOptions.scriptType : Config.scriptType;
+  createOptions.docType = isString(createOptions.docType) ? createOptions.docType : Config.docType;
+  createOptions.renderOptionsKeysToFilter = createOptions.renderOptionsKeysToFilter || [];
+  createOptions.staticMarkup = createOptions.staticMarkup !== undefined ? createOptions.staticMarkup : Config.staticMarkup;
+
+  assert(Array.isArray(createOptions.renderOptionsKeysToFilter),
+      &#x27;`renderOptionsKeysToFilter` - should be an array&#x27;);
+
+  createOptions.renderOptionsKeysToFilter =
+    createOptions.renderOptionsKeysToFilter.concat(Config.defaultKeysToFilter);
+
+  if (createOptions.performanceCollector) {
+    assert.equal(typeof createOptions.performanceCollector,
+        &#x27;function&#x27;,
+        &#x27;`performanceCollector` - should be a function&#x27;);
+  }
+
+  // the render implementation
+  return function render(thing, options, callback) {
+
+    var perfInstance;
+
+    if (createOptions.performanceCollector) {
+      perfInstance = Performance(thing);
+    }
+
+    function done(err, html) {
+      if (!options.settings[&#x27;view cache&#x27;]) {
+        // remove all the files under the express&#x27;s view folder from require cache.
+        // Helps in making changes to react views without restarting the server.
+        util.clearRequireCache(createOptions.routesFilePath);
+        util.clearRequireCacheInDir(options.settings.views, options.settings[&#x27;view engine&#x27;]);
+      }
+
+      if (createOptions.performanceCollector) {
+        createOptions.performanceCollector(perfInstance());
+      }
+
+      callback(err, html);
+    }
+
+    function renderAndDecorate(component, data, html) {
+      if (createOptions.staticMarkup) {
+        // render the component to static markup
+        html += ReactDOMServer.renderToStaticMarkup(component);
+      } else {
+        // render the component
+        html += ReactDOMServer.renderToString(component);
+
+        // the `script` tag that gets injected into the server rendered pages.
+        // https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet#RULE_.233_-_JavaScript_Escape_Before_Inserting_Untrusted_Data_into_JavaScript_Data_Values
+        var script = &#x27;&#x3c;script id=&#x22;&#x27;
+          + Config.client.markupId
+          + &#x27;&#x22; type=&#x22;&#x27;
+          + createOptions.scriptType
+          + &#x27;&#x22;&#x3e;&#x27;
+          // Escape data for injecting into &#x3c;script&#x3e; tag
+          // https://mathiasbynens.be/notes/etago
+          + jsesc(data, {
+              &#x27;escapeEtago&#x27;: true, // old option for escaping in &#x3c;script&#x3e; or &#x3c;style&#x3e; context
+              &#x27;isScriptContext&#x27;: true, // soon to be new option
+              &#x27;compact&#x27;: true, // minifies
+              &#x27;json&#x27;: true // ensures JSON compatibility
+            })
+          + &#x27;&#x3c;/script&#x3e;&#x27;;
+
+
+        if (createOptions.docType === &#x27;&#x27;) {
+          // if the `docType` is empty, the user did not want to add a docType to the rendered component,
+          // which means they might not be rendering a full page with `html` and `body` tags
+          // so attach the script tag to just  the end of the generated html string
+          html += script;
+        }
+        else {
+          var htmlTag = createOptions.scriptLocation === &#x27;head&#x27; ? &#x27;&#x3c;/head&#x3e;&#x27; : &#x27;&#x3c;/body&#x3e;&#x27;;
+          html = html.replace(htmlTag, script + htmlTag);
+        }
+      }
+
+      return html;
+    }
+
+    if (createOptions.routes &#x26;&#x26; createOptions.routesFilePath) {
+      // if `routesFilePath` property is provided, then in
+      // cases where &#x27;view cache&#x27; is false, the routes are reloaded for every render.
+      createOptions.routes = require(createOpti ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```javascript
+var Express = require(&#x27;express&#x27;);
+var ReactEngine = require(&#x27;react-engine&#x27;);
+
+var app = Express();
+
+// create an engine instance
+var engine = ReactEngine.server.<span class="apidocCodeKeywordSpan">create</span>({
+  /*
+    see the complete server options spec here:
+    https://github.com/paypal/react-engine#server-options-spec
+  */
+});
+
+// set the engine
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.react-engine.util" id="apidoc.module.react-engine.util">module react-engine.util</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.react-engine.util.clearRequireCache" id="apidoc.element.react-engine.util.clearRequireCache">
+        function <span class="apidocSignatureSpan">react-engine.util.</span>clearRequireCache
+        <span class="apidocSignatureSpan">(file)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function clearRequireCache(file) {
+  delete require.cache[file];
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+perfInstance = Performance(thing);
+    }
+
+    function done(err, html) {
+if (!options.settings[&#x27;view cache&#x27;]) {
+  // remove all the files under the express&#x27;s view folder from require cache.
+  // Helps in making changes to react views without restarting the server.
+  util.<span class="apidocCodeKeywordSpan">clearRequireCache</span>(createOptions.routesFilePath);
+  util.clearRequireCacheInDir(options.settings.views, options.settings[&#x27;view engine&#x27;]);
+}
+
+if (createOptions.performanceCollector) {
+  createOptions.performanceCollector(perfInstance());
+}
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.react-engine.util.clearRequireCacheInDir" id="apidoc.element.react-engine.util.clearRequireCacheInDir">
+        function <span class="apidocSignatureSpan">react-engine.util.</span>clearRequireCacheInDir
+        <span class="apidocSignatureSpan">(dir, extension)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function clearRequireCacheInDir(dir, extension) {
+
+  var options = {
+    cwd: dir
+  };
+
+  // find all files with the `extension` in the express view directory
+  // and clean them out of require&#x27;s cache.
+  var files = glob.sync(&#x27;**/*.&#x27; + extension, options);
+
+  files.map(function(file) {
+    clearRequireCache(dir + path.sep + (file.split(/\\|\//g).join(path.sep)));
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    }
+
+    function done(err, html) {
+if (!options.settings[&#x27;view cache&#x27;]) {
+  // remove all the files under the express&#x27;s view folder from require cache.
+  // Helps in making changes to react views without restarting the server.
+  util.clearRequireCache(createOptions.routesFilePath);
+  util.<span class="apidocCodeKeywordSpan">clearRequireCacheInDir</span>(options.settings.views, options.settings[&#x27;view engine
+&#x27;]);
+}
+
+if (createOptions.performanceCollector) {
+  createOptions.performanceCollector(perfInstance());
+}
+
+callback(err, html);
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.react-engine.util.safeRequire" id="apidoc.element.react-engine.util.safeRequire">
+        function <span class="apidocSignatureSpan">react-engine.util.</span>safeRequire
+        <span class="apidocSignatureSpan">(name)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function safeRequire(name) {
+
+  var module;
+
+  try {
+    module = require(name);
+  }
+  catch (err) {
+    // lazy load the module
+    if (!_require) {
+      _require = require(&#x27;parent-require&#x27;);
+    }
+
+    debug(format(&#x27;%j&#x27;, err));
+    module = _require(name);
+  }
+
+  return module;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+var util = require(&#x27;./util&#x27;);
+var format = require(&#x27;util&#x27;).format;
+var inherit = require(&#x27;util&#x27;).inherits;
+var debug = require(&#x27;debug&#x27;)(require(&#x27;../package&#x27;).name);
+var url = require(&#x27;url&#x27;);
+
+var View = util.<span class="apidocCodeKeywordSpan">safeRequire</span>(&#x27;express/lib/view&#x27;);
+
+function ReactEngineView(name, options) {
+debug(format(&#x27;ReactEngineView :constructor: name: %s and options: %j&#x27;,
+                name, options));
+
+// when the view name starts with `/` we assume
+// that we need to use react router to render.
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
